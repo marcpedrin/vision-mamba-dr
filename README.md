@@ -114,6 +114,14 @@ python -m eval.plots        # figures into report/figures/
 python -m eval.bootstrap    # 95% CIs for QWK from results/results.json
 ```
 
+**Trained weights.** The checkpoint behind the reported results (epoch 17) is in the
+[v1.0 release](https://github.com/marcpedrin/vision-mamba-dr/releases/tag/v1.0).
+You can evaluate it without retraining:
+
+```bash
+python -m eval.evaluate --override eval.checkpoint=best.pt
+```
+
 Any config value can be overridden without editing the YAML:
 
 ```bash
