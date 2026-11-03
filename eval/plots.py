@@ -98,7 +98,10 @@ def plot_training_curves(log_csv, out_path):
     best_point = (epochs[best], log["val_qwk"][best])
     ax.annotate(f"best {best_point[1]:.3f}", best_point,
                 textcoords="offset points", xytext=(0, 10), ha="center", color=INK)
-    ax.set_title("Validation quadratic weighted kappa", color=INK)
+    #headroom so the label doesnt hit the title
+    low, high = ax.get_ylim()
+    ax.set_ylim(low, high + 0.2 * (high - low))
+    ax.set_title("Validation QWK", color=INK)
     ax.set_xlabel("epoch", color=INK_SECONDARY)
     _style_axis(ax)
 

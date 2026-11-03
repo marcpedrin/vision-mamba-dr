@@ -22,6 +22,7 @@
 \usepackage{algpseudocode}
 \usepackage[numbers]{natbib}
 \usepackage{xcolor}
+\usepackage[section]{placeins}  % keep figures inside their own section
 \usepackage[hidelinks]{hyperref}
 
 \graphicspath{{figures/}}
@@ -423,7 +424,7 @@ The checkpoint with the best validation QWK (epoch~17, QWK 0.143) is evaluated o
 on the EyePACS test split and on Messidor-2. All numbers are also stored in
 \texttt{results/results.json}.
 
-\begin{table}[h]
+\begin{table}[!htbp]
 \centering
 \caption{Results on the held-out EyePACS test split (in-domain) and on Messidor-2
 (external, never seen in training).}
@@ -442,7 +443,7 @@ Macro F1         & 0.212 & 0.184 \\
 \end{tabular}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[!htbp]
 \centering
 \caption{Per-grade recall (share of each true grade that was predicted correctly).}
 \label{tab:recall}
@@ -459,7 +460,7 @@ Grade & EyePACS test & Messidor-2 \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
 \centering
 \maybefigure{training_curves.png}{\textwidth}
 \caption{Convergence: training and validation loss and accuracy, and validation QWK
@@ -478,7 +479,7 @@ favouring one grade and another; it settles once the learning rate decays.
 Validation QWK rises from about 0.02 to a peak of 0.143 at epoch~17 and stays near
 0.12--0.14 afterwards.
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
 \centering
 \maybefigure{confusion_eyepacs_test.png}{0.48\textwidth}\hfill
 \maybefigure{confusion_messidor2.png}{0.48\textwidth}
@@ -497,7 +498,7 @@ QWK penalises only mildly, which is why the kappa is positive despite the low
 accuracy. The class weights (0.27 for grade~0, 1.32 for grade~2) push the model
 away from the majority grade, trading accuracy for recall on the diseased grades.
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
 \centering
 \maybefigure{examples_eyepacs_test.png}{\textwidth}\\[1ex]
 \maybefigure{examples_messidor2.png}{\textwidth}
