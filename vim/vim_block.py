@@ -6,7 +6,8 @@ VimBlock: one bidirectional Vim block, Sec 3.3 and all of Algorithm 1.
     (B, 65, 192) -> (B, 65, 192), E = 384 and N = 16 inside
 
     Differences from official code: full 384x384 Delta projection like line 11
-    (official is low rank), LayerNorm instead of RMSNorm, no D*x skip, no /2.
+    (official is low rank), LayerNorm instead of RMSNorm, no /2.
+    The official D*x skip is included and on by default (model.d_skip).
 
 """
 
@@ -23,7 +24,7 @@ class DirectionalSSM(nn.Module):
     #Algorithm 1 lines 7-22 for one direction. (B, 65, 384) -> (B, 65, 384)
 
     def __init__(self, expand_dim=384, d_state=16, conv_kernel=4, dt_min=0.001,
-                 dt_max=0.1, d_skip=False):
+                 dt_max=0.1, d_skip=True):
         super().__init__()
 
         self.expand_dim = expand_dim
@@ -115,7 +116,7 @@ class VimBlock(nn.Module):
     #Algorithm 1 lines 1-28. (B, 65, 192) -> (B, 65, 192)
 
     def __init__(self, embed_dim=192, expand=2, d_state=16, conv_kernel=4,
-                 dt_min=0.001, dt_max=0.1, d_skip=False):
+                 dt_min=0.001, dt_max=0.1, d_skip=True):
         super().__init__()
 
         #E = 2 * 192 = 384

@@ -21,7 +21,7 @@ class VisionMamba(nn.Module):
 
     def __init__(self, img_size=128, patch_size=16, in_chans=3, embed_dim=192,
                  expand=2, d_state=16, depth=12, num_classes=5, cls_index=32,
-                 conv_kernel=4, dt_min=0.001, dt_max=0.1, d_skip=False):
+                 conv_kernel=4, dt_min=0.001, dt_max=0.1, d_skip=True):
         super().__init__()
 
         #image -> (B, 64, 192)
@@ -105,7 +105,7 @@ def build_model(model_cfg):
 
 
 def count_parameters(module):
-    """Count trainable parameters. Default model: 6,857,093.
+    """Count trainable parameters. Default model: 6,866,309 (with D skip).
 
     Not half of Vim-Ti's 7M even with half the blocks, because line 11's Delta
     projection is a full 384x384 (official code uses rank 12).

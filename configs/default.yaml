@@ -63,15 +63,15 @@ data:
   pin_memory: true
 
 train:
-  #paper 300, ours 30 (limited kaggle hours)
-  epochs: 30
+  #paper 300, ours 25
+  epochs: 25
   #paper 1024 on 8 GPUs, ours 32 fits on one 16GB T4/P100
   batch_size: 32
   #AdamW, paper 1e-3. 1e-3 went nan at the end of warmup (Kaggle run 1), so 5e-4
   lr: 5.0e-4
   #paper 0.05
   weight_decay: 0.05
-  #linear warmup for the first 10% of training
+  #linear warmup, 3 of 25 epochs
   warmup_epochs: 3
   #cosine goes down to this
   min_lr: 1.0e-5

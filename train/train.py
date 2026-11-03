@@ -7,7 +7,7 @@ Train Vision Mamba on EyePACS. Run from the repo root:
 
     Writes best.pt (best val QWK), last.pt, log.csv and config.yaml to train.output_dir.
     Paper Sec 4.1: AdamW, wd 0.05, lr 1e-3, cosine, 300 epochs, batch 1024.
-    Ours: 30 epochs, batch 32, no mixup/erasing/crops/EMA, class weighted loss.
+    Ours: 25 epochs, batch 32, no mixup/erasing/crops/EMA, class weighted loss.
 
 """
 

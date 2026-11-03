@@ -34,7 +34,7 @@ def test_parameter_count():
     print(f"Parameters: {total:,}  (paper Vim-Ti: about 7M with 24 blocks)")
 
     #if this changes the architecture changed
-    assert total == 6_857_093
+    assert total == 6_866_309
 
 
 def test_one_optimiser_step_reduces_loss():

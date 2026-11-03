@@ -26,6 +26,7 @@ with the best validation QWK (epoch 17) was evaluated once on each test set.
 |---|:---:|:---:|
 | Images | 3,512 | 1,744 |
 | **Quadratic weighted kappa** | **0.119** | **0.083** |
+| QWK 95% bootstrap CI | [0.090, 0.149] | [0.045, 0.124] |
 | Accuracy | 0.465 | 0.317 |
 | Macro precision | 0.222 | 0.206 |
 | Macro recall | 0.237 | 0.210 |
@@ -80,7 +81,7 @@ vim/            the model
   vision_mamba.py     full classifier
 data/           EyePACS / Messidor-2 datasets, patient-level split, fundus preprocessing
 train/          training loop, LR schedule, checkpoints, logging
-eval/           metrics (incl. QWK), evaluation script, figures
+eval/           metrics (incl. QWK), evaluation, bootstrap CIs, figures
 tests/          63 tests (hand-computed scan steps, shapes, gradients, data, metrics)
 configs/        every hyperparameter in one YAML file
 report/         LaTeX report and figures
@@ -110,6 +111,7 @@ command line.
 python -m train.train
 python -m eval.evaluate     # EyePACS test + Messidor-2, writes results.json
 python -m eval.plots        # figures into report/figures/
+python -m eval.bootstrap    # 95% CIs for QWK from results/results.json
 ```
 
 Any config value can be overridden without editing the YAML:

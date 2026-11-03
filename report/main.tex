@@ -44,7 +44,7 @@
 
 \title{Vision Mamba for Diabetic Retinopathy Grading:\\
        a From-Scratch Implementation and Cross-Dataset Study}
-\author{Marc Pedrin\\IISc Spectrum Lab internship task}
+\author{Marc Pedrin\\IISc Spectrum Lab internship task\\[0.5ex]\small Code: \url{https://github.com/marcpedrin/vision-mamba-dr}}
 \date{\today}
 
 \begin{document}
@@ -342,7 +342,9 @@ patient-disjoint splits; and every metric against scikit-learn.
 
 \paragraph{EyePACS} (Kaggle Diabetic Retinopathy Detection, 2015~\cite{eyepacs2015}):
 35,126 labelled images from 17,563 patients (left and right eye each), from many
-camera models. We split it at the \emph{patient} level into 80\% train, 10\%
+camera models. We use the resized Kaggle mirror
+\texttt{tanlikesmath/diabetic-retinopathy-resized}, which contains the same images
+and labels at reduced resolution. We split it at the \emph{patient} level into 80\% train, 10\%
 validation and 10\% test, stratified by each patient's worse-eye grade, with a fixed
 seed. Keeping both eyes of a patient in the same split prevents data leakage: the
 two eyes are highly correlated, and a model could otherwise score well partly by
@@ -422,7 +424,11 @@ already scores about 73\%, but has $\kappa=0$.
 
 The checkpoint with the best validation QWK (epoch~17, QWK 0.143) is evaluated once
 on the EyePACS test split and on Messidor-2. All numbers are also stored in
-\texttt{results/results.json}.
+\texttt{results/results.json}. Bootstrap 95\% confidence intervals for QWK (1,000
+resamples of the test images, seed 42, \texttt{eval/bootstrap.py}) are
+$[0.090, 0.149]$ on EyePACS and $[0.045, 0.124]$ on Messidor-2: both exclude zero,
+and they overlap. These intervals treat images as independent, although the two
+eyes of a patient are correlated, so they are slightly too narrow.
 
 \begin{table}[!htbp]
 \centering

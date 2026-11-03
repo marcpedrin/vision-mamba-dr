@@ -39,7 +39,7 @@ class ModelConfig:
     dt_min: float = 0.001
     dt_max: float = 0.1
     #official Mamba D*x skip (False = printed Algorithm 1)
-    d_skip: bool = False
+    d_skip: bool = True
 
     @property
     def grid_size(self) -> int:
@@ -106,7 +106,7 @@ class TrainConfig:
     #train: section of the yaml
 
     #paper 300
-    epochs: int = 30
+    epochs: int = 25
     #paper 1024
     batch_size: int = 32
     #AdamW
