@@ -1,0 +1,34 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# datasets are huge and can't be redistributed
+datasets/
+*.jpeg
+*.jpg
+*.tif
+*.tiff
+
+# training outputs
+outputs/
+*.pt
+*.pth
+*.ckpt
+
+# latex build files
+report/*.aux
+report/*.bbl
+report/*.blg
+report/*.log
+report/*.out
+report/*.toc
+report/*.fls
+report/*.fdb_latexmk
+report/*.synctex.gz
+
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

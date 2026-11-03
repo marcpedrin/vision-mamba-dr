@@ -1,0 +1,98 @@
+# All hyperparameters in one place. Each one has the paper's value (Vim-Ti) next to it.
+# Paper: Vision Mamba, Zhu et al., ICML 2024, arXiv 2401.09417
+
+#master seed, everything random comes from this
+seed: 42
+
+model:
+  #paper 224, ours 128 to save compute
+  img_size: 128
+  #paper 16, 128 / 16 = 8 per side -> 64 patches
+  patch_size: 16
+  #RGB
+  in_chans: 3
+  #D, paper Vim-Ti 192
+  embed_dim: 192
+  #E = 2 * 192 = 384, same as paper
+  expand: 2
+  #N, hidden state size, paper 16
+  d_state: 16
+  #paper 24, ours 12 to halve training time
+  depth: 12
+  #DR grades 0-4 (paper: 1000 ImageNet classes)
+  num_classes: 5
+  #middle -> index 32 (paper default, Table 5: 76.1% vs 75.2% head)
+  cls_position: middle
+  #conv1d kernel, Algorithm 1 line 7, paper 4
+  conv_kernel: 4
+  #starting range for Delta (Mamba code values)
+  dt_min: 0.001
+  dt_max: 0.1
+  #official Mamba skip y + D*x. Not in the printed Algorithm 1, but without it the
+  #class token is almost blind to the image at init and training didnt learn (Kaggle run 1)
+  d_skip: true
+
+data:
+  #EyePACS (Kaggle 2015), training. On kaggle override these with the /kaggle/input paths
+  eyepacs_image_dir: datasets/eyepacs/train
+  eyepacs_labels_csv: datasets/eyepacs/trainLabels.csv
+  #"10_left" -> "10_left.jpeg"
+  eyepacs_image_ext: .jpeg
+
+  #Messidor-2, EVAL ONLY. Change column names here if your csv is different
+  messidor_image_dir: datasets/messidor2/images
+  messidor_labels_csv: datasets/messidor2/messidor_data.csv
+  messidor_id_column: image_id
+  messidor_label_column: adjudicated_dr_grade
+  #only used if the id has no extension
+  messidor_image_ext: .png
+
+  #fraction of PATIENTS for val/test, rest (80%) is train
+  val_fraction: 0.1
+  test_fraction: 0.1
+
+  #pixels at or below this brightness are black border
+  crop_threshold: 10
+
+  #train augmentation only, no crops/erasing since they can remove small lesions
+  rotation_degrees: 15
+  color_jitter: 0.1
+
+  #kaggle has 2-4 cpu cores, 0 = load in main process
+  num_workers: 2
+  pin_memory: true
+
+train:
+  #paper 300, ours 30 (limited kaggle hours)
+  epochs: 30
+  #paper 1024 on 8 GPUs, ours 32 fits on one 16GB T4/P100
+  batch_size: 32
+  #AdamW, paper 1e-3. 1e-3 went nan at the end of warmup (Kaggle run 1), so 5e-4
+  lr: 5.0e-4
+  #paper 0.05
+  weight_decay: 0.05
+  #linear warmup for the first 10% of training
+  warmup_epochs: 3
+  #cosine goes down to this
+  min_lr: 1.0e-5
+  #max gradient norm
+  grad_clip: 1.0
+  #mixed precision (fp16). Off: suspected cause of the nan in Kaggle run 1. Slower but safe
+  amp: false
+  #EyePACS is ~73% grade 0 so weight the loss
+  class_weights: true
+
+  #checkpoints, log.csv and a copy of this config go here
+  output_dir: outputs/default
+
+  #only for --smoke-test
+  smoke_test_images: 100
+  smoke_test_epochs: 2
+  smoke_test_batch_size: 8
+
+eval:
+  #best val QWK checkpoint from training
+  checkpoint: outputs/default/best.pt
+  results_json: outputs/default/results.json
+  #report/main.tex picks figures up from here
+  figures_dir: report/figures

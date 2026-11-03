@@ -1,0 +1,12 @@
+torch>=2.1
+torchvision>=0.16
+numpy>=1.24
+pandas>=2.0
+pillow>=10.0
+matplotlib>=3.7
+tqdm>=4.65
+pyyaml>=6.0
+
+# tests only (sklearn is just used to check my metrics)
+pytest>=7.0
+scikit-learn>=1.3
